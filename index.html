@@ -128,13 +128,14 @@ img, video { display: block; }
 }
 #js_header.scrolled { background: rgba(0,0,0,.85); backdrop-filter: blur(12px); }
 
-.h-logo { height: 22rem; }
+.h-logo { height: 28rem; }
 .h-logo img { height: 100%; width: auto; filter: invert(1) brightness(.9); }
 
 .h-nav {
   display: flex;
   align-items: center;
   gap: 32rem;
+  margin-left: auto;
 }
 .h-nav-item {
   font-family: var(--font-en);
@@ -222,19 +223,21 @@ img, video { display: block; }
 ───────────────────────────────────────── */
 .fv-logo {
   position: fixed;
-  top: 32rem;
-  left: 48rem;
-  z-index: 100;
-  display: block;
+  top: 0;
+  left: 40rem;
+  z-index: 10000;
+  height: var(--hh);
+  display: flex;
+  align-items: center;
 }
 .fv-logo img {
-  height: 55rem;
+  height: 30rem;
   width: auto;
   display: block;
 }
 @media (max-width: 767px) {
-  .fv-logo { top: 20rem; left: 24rem; }
-  .fv-logo img { height: 40rem; }
+  .fv-logo { left: 24rem; }
+  .fv-logo img { height: 26rem; }
 }
 
 #js_home_fv_fv {
@@ -272,7 +275,7 @@ img, video { display: block; }
 /* ─────────────────────────────────────────
    LEAD — Evolution begins with ZERO.
 ───────────────────────────────────────── */
-#js_home_fv_lead {
+#js_home_about {
   position: relative;
   z-index: 1;
   background: var(--black);
@@ -319,7 +322,7 @@ img, video { display: block; }
 }
 
 @media (max-width: 767px) {
-  #js_home_fv_lead { padding: 120rem 0 100rem; }
+  #js_home_about { padding: 120rem 0 100rem; }
   .lead-heading-en { font-size: 48rem; }
 }
 
@@ -1133,6 +1136,60 @@ img, video { display: block; }
 }
 
 /* ─────────────────────────────────────────
+   SERVICE
+───────────────────────────────────────── */
+#js_home_service {
+  background: var(--bg-gray);
+  padding: 100rem 0 120rem;
+  position: relative;
+  z-index: 1;
+}
+.svc-head { margin-bottom: 48rem; }
+.svc-heading {
+  font-size: clamp(28px, 3.5vw, 52rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  color: #1a1a1a;
+  margin-top: 10rem;
+}
+.svc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32rem;
+}
+.svc-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+}
+.svc-card-body { padding: 40rem 40rem 32rem; }
+.svc-card-title {
+  font-size: 22rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.4;
+  margin-bottom: 16rem;
+  letter-spacing: -.01em;
+}
+.svc-card-desc { font-size: 14rem; line-height: 1.85; color: #555; }
+.svc-card-img {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #1a1a1a;
+  margin-top: auto;
+}
+.svc-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform .6s ease;
+  opacity: .8;
+}
+.svc-card:hover .svc-card-img img { transform: scale(1.04); }
+@media (max-width: 767px) { .svc-grid { grid-template-columns: 1fr; } }
+
+/* ─────────────────────────────────────────
    Scroll utils
 ───────────────────────────────────────── */
 .reveal-up { opacity: 0; transform: translateY(32rem); }
@@ -1158,6 +1215,16 @@ img, video { display: block; }
 </div>
 
 <!-- ══ Header ══ -->
+<header id="js_header">
+  <nav class="h-nav">
+    <a href="#js_home_about" class="h-nav-item">About</a>
+    <a href="#js_home_service" class="h-nav-item">Service</a>
+    <a href="#js_home_cta" class="h-nav-item">Contact</a>
+  </nav>
+  <button class="h-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
 
 <!-- ══ Main ══ -->
 <main>
@@ -1165,8 +1232,7 @@ img, video { display: block; }
   <!-- FV -->
   <section id="js_home_fv_fv">
     <video class="fv-video" autoplay loop muted playsinline>
-      <source media="(max-width:560px)" src="https://www.cartazero.co.jp/movies/fv_sp.mp4" type="video/mp4">
-      <source src="https://www.cartazero.co.jp/movies/fv.mp4" type="video/mp4">
+      <source src="hero-bg.mp4" type="video/mp4">
     </video>
     <a href="." class="fv-logo">
       <img src="behind-x-logo.png" alt="Behind X">
@@ -1178,7 +1244,7 @@ img, video { display: block; }
   </section>
 
   <!-- Lead -->
-  <section id="js_home_fv_lead">
+  <section id="js_home_about">
     <div class="lead-inner">
       <h2 class="lead-heading-en" id="js_home_fv_lead_text">
         <span class="line-wrap"><span class="line">食の開発を、</span></span>
@@ -1186,121 +1252,17 @@ img, video { display: block; }
       </h2>
       <p class="lead-body reveal-up">
         従来の食品開発は、複雑な工程により限られた企業のみが参入できる領域でした。<br>
-        Behind Xは独自のノウハウとAIテクノロジーでその壁を取り払います。<br>
-        「食品開発の民主化」と「サプライチェーンのイノベーション」——<br>
+        Behind Xは独自のAIエージェントが協働し、企画からレシピ開発、マーケティング、分析まで。<br>
         誰もが気軽に、美味しく、ワクワクする食品をつくれる世界を実現します。
       </p>
     </div>
   </section>
 
-  <!-- Knowledge -->
-  <section id="js_home_knowledge">
-    <div class="inner">
-      <div class="know-head reveal-up">
-        <p class="know-head-main odm-label">ODM PROCESS</p>
-        <h2 class="know-head-sub">5つのプロセスで、<br>アイデアを商品へ。</h2>
-      </div>
-      <div class="odm-list">
-        <div class="odm-item reveal-up">
-          <span class="odm-num">01</span>
-          <div class="odm-content">
-            <p class="odm-cat">企画・戦略</p>
-            <h3 class="odm-title">Planning</h3>
-            <p class="odm-desc">AIを活用した市場分析・トレンド予測により、売れる根拠に基づくユニークな商品コンセプトとレシピをスピーディに提案します。</p>
-          </div>
-          <div class="know-item-arrow"></div>
-        </div>
-        <div class="odm-item reveal-up">
-          <span class="odm-num">02</span>
-          <div class="odm-content">
-            <p class="odm-cat">試作開発</p>
-            <h3 class="odm-title">R&amp;D</h3>
-            <p class="odm-desc">自社ブランド事業で培った実践知を還元し、妥協のない美味しさと機能を両立する試作品を圧倒的なスピードで開発します。</p>
-          </div>
-          <div class="know-item-arrow"></div>
-        </div>
-        <div class="odm-item reveal-up">
-          <span class="odm-num">03</span>
-          <div class="odm-content">
-            <p class="odm-cat">製造</p>
-            <h3 class="odm-title">Manufacturing</h3>
-            <p class="odm-desc">独自のネットワークから最適な工場をマッチング。厳格な品質管理基準のもと、安定した製造ラインを迅速に構築します。</p>
-          </div>
-          <div class="know-item-arrow"></div>
-        </div>
-        <div class="odm-item reveal-up">
-          <span class="odm-num">04</span>
-          <div class="odm-content">
-            <p class="odm-cat">物流</p>
-            <h3 class="odm-title">Logistics</h3>
-            <p class="odm-desc">複雑なサプライチェーンを一元管理。工程間の無駄な待機時間を省き、スムーズで効率的な物流手配を行います。</p>
-          </div>
-          <div class="know-item-arrow"></div>
-        </div>
-        <div class="odm-item reveal-up">
-          <span class="odm-num">05</span>
-          <div class="odm-content">
-            <p class="odm-cat">販路支援</p>
-            <h3 class="odm-title">Sales Support</h3>
-            <p class="odm-desc">コンビニやドラッグストア等への強固なリテールネットワークを活かし、「売れるまで」を強力に伴走支援します。</p>
-          </div>
-          <div class="know-item-arrow"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Strengths -->
-  <section id="js_home_business_cards">
-    <div class="inner">
-      <div class="str-head reveal-up">
-        <p class="know-head-main odm-label">OUR STRENGTHS</p>
-        <h2 class="str-heading">Behind Xが選ばれる、<br>3つの理由。</h2>
-      </div>
-      <div class="str-grid">
-        <div class="str-card reveal-up">
-          <div class="str-card-img">
-            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=380&fit=crop" alt="Total Solution">
-          </div>
-          <div class="str-card-body">
-            <div class="str-card-bar"></div>
-            <h3 class="str-card-title">Total Solution</h3>
-            <p class="str-card-sub">一気通貫サポート</p>
-            <p class="str-card-desc">企画から販路開拓まで、全工程を一気通貫でサポート。</p>
-          </div>
-        </div>
-        <div class="str-card reveal-up">
-          <div class="str-card-img">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=380&fit=crop" alt="Process Revolution">
-          </div>
-          <div class="str-card-body">
-            <div class="str-card-bar"></div>
-            <h3 class="str-card-title">Process Revolution</h3>
-            <p class="str-card-sub">プロセス革新</p>
-            <p class="str-card-desc">AI活用により、従来のリードタイムを最大90%削減。</p>
-          </div>
-        </div>
-        <div class="str-card reveal-up">
-          <div class="str-card-img">
-            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=380&fit=crop" alt="High Value-Added">
-          </div>
-          <div class="str-card-body">
-            <div class="str-card-bar"></div>
-            <h3 class="str-card-title">High Value-Added</h3>
-            <p class="str-card-sub">高付加価値商品</p>
-            <p class="str-card-desc">トレンド分析から導き出された、売れる高付加価値商品を生み出します。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Vision -->
+  <!-- Collab (Behind X × 2foods) -->
   <section id="js_home_vision">
     <div class="vision-bg">
       <video class="vision-video" autoplay loop muted playsinline>
-        <source media="(max-width:560px)" src="https://www.cartazero.co.jp/movies/fv_sp.mp4" type="video/mp4">
-        <source src="https://www.cartazero.co.jp/movies/fv.mp4" type="video/mp4">
+        <source src="vision-bg.mp4" type="video/mp4">
       </video>
       <img class="vision-layer" src="video_layer.png" alt="">
       <div class="vision-overlay"></div>
@@ -1323,6 +1285,81 @@ img, video { display: block; }
         <div class="collab-right reveal-up">
           <p class="collab-desc">Behind Xは、ヘルシーフードブランド「2foods」を展開する株式会社TWOのフードODM事業部門です。</p>
           <p class="collab-desc">自社ブランド開発で培った知見をそのままODMサービスとして提供します。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service -->
+  <section id="js_home_service">
+    <div class="inner">
+      <div class="svc-head reveal-up">
+        <p class="know-head-main" style="color:var(--blue)">SERVICE</p>
+        <h2 class="svc-heading">サービス</h2>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-card reveal-up">
+          <div class="svc-card-body">
+            <h3 class="svc-card-title">食品特化AIソリューション</h3>
+            <p class="svc-card-desc">食品開発におけるあらゆる複雑な業務をBehind X独自のAIがサポートします。</p>
+          </div>
+          <div class="svc-card-img">
+            <img src="service_ai.png" alt="AI Solution">
+          </div>
+        </div>
+        <div class="svc-card reveal-up">
+          <div class="svc-card-body">
+            <h3 class="svc-card-title">食品開発・製造・マーケティング伴走支援</h3>
+            <p class="svc-card-desc">企画からレシピ・試作・製造・販促まで、食とマーケティングのプロが伴走。「売れる商品」を最後まで形にします。</p>
+          </div>
+          <div class="svc-card-img">
+            <img src="service_odm.png" alt="Food Development">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strengths -->
+  <section id="js_home_business_cards">
+    <div class="inner">
+      <div class="str-head reveal-up">
+        <p class="know-head-main odm-label">OUR STRENGTHS</p>
+        <h2 class="str-heading">Behind Xの3つの強み</h2>
+      </div>
+      <div class="str-grid">
+        <div class="str-card reveal-up">
+          <div class="str-card-img">
+            <img src="strength_marketing.jpg" alt="Marketing">
+          </div>
+          <div class="str-card-body">
+            <div class="str-card-bar"></div>
+            <h3 class="str-card-title">マーケティング力</h3>
+            <p class="str-card-sub">MARKETING + FRAMEWORK</p>
+            <p class="str-card-desc">2foodsで培った消費者視点のマーケティング知見と独自のフレームワークを活用。データドリブンなブランド戦略で、売れる商品の企画・販促をトータルサポートします。</p>
+          </div>
+        </div>
+        <div class="str-card reveal-up">
+          <div class="str-card-img">
+            <img src="strength_maker.png" alt="Maker Knowledge">
+          </div>
+          <div class="str-card-body">
+            <div class="str-card-bar"></div>
+            <h3 class="str-card-title">メーカー知見</h3>
+            <p class="str-card-sub">MANUFACTURING × TRACK RECORD</p>
+            <p class="str-card-desc">アイデアで終わらせず、形にする経験を保有。法規制、製造上／販売上の条件など、机上では見えない様々な制約を乗り越えて商品化まで実現。</p>
+          </div>
+        </div>
+        <div class="str-card reveal-up">
+          <div class="str-card-img">
+            <img src="strength_ai.png" alt="AI">
+          </div>
+          <div class="str-card-body">
+            <div class="str-card-bar"></div>
+            <h3 class="str-card-title">AIの効果的な活用</h3>
+            <p class="str-card-sub">AI IMPLEMENTATION</p>
+            <p class="str-card-desc">2年以上にわたり、AIを活用した企画開発を実施。AIの強み／弱みを理解したうえで独自のAI商品開発・育成システムを設計し、AIと人のハイブリッド運用で効率的に最適な企画を提案。</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1368,9 +1405,8 @@ img, video { display: block; }
     <div class="footer-top">
       <img class="footer-logo" src="behind-x-logo.png" alt="Behind X">
       <div class="footer-sns">
-        <a href="https://x.com/cartazero_pr" target="_blank">X</a>
-        <a href="https://www.facebook.com/cartazero" target="_blank">Facebook</a>
-        <a href="https://techblog.cartaholdings.co.jp/" target="_blank">CARTA TECH BLOG</a>
+        <a href="#" target="_blank">Instagram</a>
+        <a href="#" target="_blank">X</a>
       </div>
     </div>
     <div class="footer-nav">
@@ -1378,41 +1414,37 @@ img, video { display: block; }
         <p class="footer-nav-heading">About</p>
         <div class="footer-nav-items">
           <a href="#" class="footer-nav-item">Philosophy</a>
-          <a href="#" class="footer-nav-item">Company</a>
+          <a href="#" class="footer-nav-item">Strengths</a>
+          <a href="#" class="footer-nav-item">Story</a>
         </div>
       </div>
       <div class="footer-nav-col">
-        <p class="footer-nav-heading">Business</p>
+        <p class="footer-nav-heading">Service</p>
         <div class="footer-nav-items">
-          <a href="#" class="footer-nav-item">Strength</a>
-          <a href="#" class="footer-nav-item">Service</a>
-          <a href="#" class="footer-nav-item">Zero AI</a>
+          <a href="#js_home_service" class="footer-nav-item">AI Solution</a>
+          <a href="#js_home_service" class="footer-nav-item">ODM Support</a>
         </div>
       </div>
       <div class="footer-nav-col">
-        <p class="footer-nav-heading">Career</p>
-        <div class="footer-nav-items">
-          <a href="#" class="footer-nav-item">Career Top</a>
-          <a href="#" class="footer-nav-item">Career Story</a>
-        </div>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-nav-heading">Others</p>
+        <p class="footer-nav-heading">News</p>
         <div class="footer-nav-items">
           <a href="#" class="footer-nav-item">News</a>
           <a href="#" class="footer-nav-item">Knowledge</a>
-          <a href="#" class="footer-nav-item">Events</a>
-          <a href="#" class="footer-nav-item">Contact</a>
+        </div>
+      </div>
+      <div class="footer-nav-col">
+        <p class="footer-nav-heading">Contact</p>
+        <div class="footer-nav-items">
+          <a href="#js_home_cta" class="footer-nav-item">Contact</a>
+          <a href="#" class="footer-nav-item">Privacy Policy</a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© CARTA ZERO INC.</p>
+      <p class="footer-copy">© Behind X / TWO Inc.</p>
       <div class="footer-links">
-        <a href="#">広告品質への取り組み</a>
-        <a href="#">デジタルメディア調達ガイドライン</a>
-        <a href="#">サイトポリシー</a>
         <a href="#">プライバシーポリシー</a>
+        <a href="#">サイトポリシー</a>
       </div>
     </div>
   </div>
@@ -1476,7 +1508,7 @@ function launchAnimations() {
   /* Lead heading: line by line slide up (scrub) */
   gsap.timeline({
     scrollTrigger: {
-      trigger: '#js_home_fv_lead',
+      trigger: '#js_home_about',
       start: 'top 85%', end: 'top 20%',
       scrub: false
     }
@@ -1644,7 +1676,7 @@ const waitST = setInterval(() => {
   if (!window.ScrollTrigger) return;
   clearInterval(waitST);
   ScrollTrigger.create({
-    trigger: '#js_home_knowledge',
+    trigger: '#js_home_vision',
     start: 'top 80%', end: 'top top',
     scrub: true,
     onUpdate: s => { canvasWrap.style.filter = `blur(${s.progress * 28}px)`; }
