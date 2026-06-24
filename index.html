@@ -138,6 +138,7 @@ img, video { display: block; }
   align-items: center;
   gap: 32rem;
   margin-left: auto;
+  margin-right: 0;
 }
 .h-nav-item {
   font-family: var(--font-en);
@@ -244,13 +245,9 @@ img, video { display: block; }
    FV — First View
 ───────────────────────────────────────── */
 .fv-logo {
-  position: fixed;
-  top: 0;
-  left: 40rem;
-  z-index: 10000;
-  height: var(--hh);
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 .fv-logo img {
   height: 30rem;
@@ -258,7 +255,6 @@ img, video { display: block; }
   display: block;
 }
 @media (max-width: 767px) {
-  .fv-logo { left: 24rem; }
   .fv-logo img { height: 26rem; }
 }
 
@@ -1254,6 +1250,9 @@ img, video { display: block; }
 
 <!-- ══ Header ══ -->
 <header id="js_header">
+  <a href="." class="fv-logo">
+    <img src="behind-x-logo.png" alt="Behind X">
+  </a>
   <nav class="h-nav">
     <a href="#js_home_about" class="h-nav-item">About</a>
     <a href="#js_home_service" class="h-nav-item">Service</a>
@@ -1272,9 +1271,6 @@ img, video { display: block; }
     <video class="fv-video" autoplay loop muted playsinline>
       <source src="hero-bg.mp4" type="video/mp4">
     </video>
-    <a href="." class="fv-logo">
-      <img src="behind-x-logo.png" alt="Behind X">
-    </a>
     <div class="fv-fixed-text" id="js_home_fv_heading">
       <p data-line="1">「食品開発の民主化」を実現する、</p>
       <p data-line="2">次世代のAI活用型食品ODMプラットフォーム。</p>
