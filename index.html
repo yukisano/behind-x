@@ -109,6 +109,8 @@ img, video { display: block; }
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity .6s ease;
 }
 #js_bg_canvas canvas { width: 100% !important; height: 100% !important; }
 
@@ -265,6 +267,8 @@ img, video { display: block; }
   height: 100svh;
   min-height: 600rem;
   overflow: hidden;
+  background: var(--black);
+  z-index: 1;
 }
 .fv-video {
   position: absolute;
@@ -1722,11 +1726,21 @@ let t = 0;
   requestAnimationFrame(loop);
 })();
 
-/* Canvas blur on scroll */
+/* Canvas visibility + blur on scroll */
 const canvasWrap = document.getElementById('js_bg_canvas');
 const waitST = setInterval(() => {
   if (!window.ScrollTrigger) return;
   clearInterval(waitST);
+
+  /* Fade in when FV scrolls out, fade out when FV comes back */
+  ScrollTrigger.create({
+    trigger: '#js_home_fv_fv',
+    start: 'bottom 80%', end: 'bottom 40%',
+    scrub: true,
+    onUpdate: s => { canvasWrap.style.opacity = s.progress; }
+  });
+
+  /* Blur when entering vision section */
   ScrollTrigger.create({
     trigger: '#js_home_vision',
     start: 'top 80%', end: 'top top',
