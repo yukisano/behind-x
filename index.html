@@ -286,6 +286,13 @@ img, video { display: block; }
   color: rgba(246,246,246,.7);
   line-height: 1.8;
   letter-spacing: .04em;
+  opacity: 1;
+  animation: fv-text-in .8s ease forwards;
+}
+.fv-fixed-text p:nth-child(2) { animation-delay: .15s; }
+@keyframes fv-text-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 @media (max-width: 767px) {
   .fv-fixed-text { right: 24rem; bottom: 32rem; left: 24rem; text-align: left; }
@@ -1400,8 +1407,8 @@ img, video { display: block; }
       <div class="fv-caption-text" id="fv-caption-text"></div>
     </div>
     <div class=”fv-fixed-text” id=”js_home_fv_heading”>
-      <p data-line=”1”>「食品開発の民主化」を実現する、</p>
-      <p data-line=”2”>次世代のAI活用型食品ODMプラットフォーム。</p>
+      <p>「食品開発の民主化」を実現する、</p>
+      <p>次世代のAI活用型食品ODMプラットフォーム。</p>
     </div>
   </section>
 
