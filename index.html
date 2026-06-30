@@ -292,6 +292,45 @@ img, video { display: block; }
   .fv-fixed-text p { font-size: 14rem; line-height: 1.7; }
 }
 
+/* ─── FV Caption Overlay ─── */
+.fv-caption-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 80rem;
+  pointer-events: none;
+  z-index: 2;
+}
+.fv-caption-text {
+  font-family: var(--font-en);
+  font-size: 72rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  white-space: pre-line;
+  text-shadow: 0 2px 24px rgba(0,0,0,.35);
+  opacity: 0;
+  transform: translateY(10rem);
+  transition: opacity .45s ease, transform .45s ease;
+}
+.fv-caption-text.is-ja {
+  font-family: var(--font-ja);
+  font-size: 48rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.fv-caption-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (max-width: 767px) {
+  .fv-caption-wrap { padding: 0 32rem; }
+  .fv-caption-text { font-size: 40rem; }
+  .fv-caption-text.is-ja { font-size: 28rem; }
+}
+
 /* ─────────────────────────────────────────
    LEAD — Evolution begins with ZERO.
 ───────────────────────────────────────── */
@@ -1268,9 +1307,12 @@ img, video { display: block; }
 
   <!-- FV -->
   <section id="js_home_fv_fv">
-    <video class="fv-video" autoplay loop muted playsinline>
+    <video class="fv-video" id="fv-video" autoplay loop muted playsinline>
       <source src="hero-bg.mp4" type="video/mp4">
     </video>
+    <div class="fv-caption-wrap">
+      <div class="fv-caption-text" id="fv-caption-text"></div>
+    </div>
     <div class="fv-fixed-text" id="js_home_fv_heading">
       <p data-line="1">「食品開発の民主化」を実現する、</p>
       <p data-line="2">次世代のAI活用型食品ODMプラットフォーム。</p>
@@ -1611,6 +1653,44 @@ function launchAnimations() {
 
   ScrollTrigger.refresh();
 }
+
+/* ═══════════════════════════════
+   FV VIDEO CAPTIONS
+═══════════════════════════════ */
+(function() {
+  const video = document.getElementById('fv-video');
+  const captionEl = document.getElementById('fv-caption-text');
+  if (!video || !captionEl) return;
+
+  const captions = [
+    { start: 0,    end: 5,    text: '食品開発の“裏側”を、\n最前線で支えていく', ja: true },
+    { start: 5,    end: 10,   text: 'Food Technology', ja: false },
+    { start: 10,   end: 15,   text: 'AI', ja: false },
+    { start: 15,   end: 20,   text: 'Marketing', ja: false },
+    { start: 20,   end: 24,   text: 'Craftsmanship', ja: false },
+    { start: 24,   end: 27.5, text: 'Behind X', ja: false },
+  ];
+
+  let current = null;
+
+  video.addEventListener('timeupdate', () => {
+    const t = video.currentTime;
+    const cap = captions.find(c => t >= c.start && t < c.end) || null;
+    if (cap === current) return;
+
+    captionEl.classList.remove('visible');
+    setTimeout(() => {
+      if (cap) {
+        captionEl.textContent = cap.text;
+        captionEl.classList.toggle('is-ja', cap.ja);
+        captionEl.classList.add('visible');
+      } else {
+        captionEl.textContent = '';
+      }
+    }, 420);
+    current = cap;
+  });
+})();
 
 /* ═══════════════════════════════
    HAMBURGER MENU (MOBILE)
