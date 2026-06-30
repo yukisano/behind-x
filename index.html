@@ -327,10 +327,41 @@ img, video { display: block; }
   opacity: 1;
   transform: translateY(0);
 }
+
+/* End card overlay */
+.fv-endcard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rem;
+  opacity: 0;
+  transform: translateY(10rem);
+  transition: opacity .45s ease, transform .45s ease;
+  position: absolute;
+}
+.fv-endcard.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fv-endcard-logo { display: flex; align-items: center; justify-content: center; }
+.fv-endcard-logo svg,
+.fv-endcard-logo img { height: 48rem; width: auto; }
+.fv-endcard-sub {
+  font-family: var(--font-ja);
+  font-size: 20rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
 @media (max-width: 767px) {
   .fv-caption-wrap { padding: 0 24rem; }
   .fv-caption-text { font-size: 44rem; }
   .fv-caption-text.is-ja { font-size: 31rem; }
+  .fv-endcard-logo svg,
+  .fv-endcard-logo img { height: 36rem; }
+  .fv-endcard-sub { font-size: 15rem; }
 }
 
 /* ─────────────────────────────────────────
@@ -1313,6 +1344,10 @@ img, video { display: block; }
       <source src="hero-bg.mp4" type="video/mp4">
     </video>
     <div class="fv-caption-wrap">
+      <div class="fv-endcard" id="fv-endcard">
+        <div class="fv-endcard-logo" id="fv-endcard-logo"><!-- Behind X SVG logo here --></div>
+        <div class="fv-endcard-sub" id="fv-endcard-sub"></div>
+      </div>
       <div class="fv-caption-text" id="fv-caption-text"></div>
     </div>
     <div class="fv-fixed-text" id="js_home_fv_heading">
@@ -1664,19 +1699,43 @@ function launchAnimations() {
   const captionEl = document.getElementById('fv-caption-text');
   if (!video || !captionEl) return;
 
+  const endcardEl = document.getElementById('fv-endcard');
+  const endcardSub = document.getElementById('fv-endcard-sub');
+
   const captions = [
     { start: 0,    end: 5,    text: '食品開発の”裏側”を、最前線で支えていく', ja: true },
     { start: 5,    end: 10,   text: 'Food Technology', ja: false },
     { start: 10,   end: 15,   text: 'AI', ja: false },
     { start: 15,   end: 20,   text: 'Marketing', ja: false },
     { start: 20,   end: 22.5, text: 'Craftsmanship', ja: false },
-    { start: 24,   end: 27.5, text: 'Behind X', ja: false },
   ];
 
+  /* End card: 0:24〜0:27 */
+  const ENDCARD_START = 24;
+  const ENDCARD_END   = 27.5;
+
   let current = null;
+  let endcardActive = false;
 
   video.addEventListener('timeupdate', () => {
     const t = video.currentTime;
+
+    /* End card */
+    const shouldShowEnd = t >= ENDCARD_START && t < ENDCARD_END;
+    if (shouldShowEnd !== endcardActive) {
+      endcardActive = shouldShowEnd;
+      if (shouldShowEnd) {
+        captionEl.classList.remove('visible');
+        endcardSub.textContent = '食品開発の”裏側”を、最前線で支えていく';
+        endcardEl.classList.add('visible');
+        current = null;
+      } else {
+        endcardEl.classList.remove('visible');
+      }
+    }
+    if (shouldShowEnd) return;
+
+    /* Regular captions */
     const cap = captions.find(c => t >= c.start && t < c.end) || null;
     if (cap === current) return;
 
