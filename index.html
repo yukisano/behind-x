@@ -296,25 +296,19 @@ img, video { display: block; }
   letter-spacing: -.02em;
   white-space: pre-line;
   text-align: center;
-  text-shadow: 0 2px 12px rgba(0,0,0,.6);
-  background: rgba(0,0,0,.38);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  padding: 24rem 56rem;
-  border-radius: 8rem;
+  text-shadow:
+    0 0 80px rgba(0,0,0,.9),
+    0 0 40px rgba(0,0,0,.8),
+    0 4px 8px rgba(0,0,0,.95);
   opacity: 0;
-  transform: translateY(16rem);
-  transition: opacity .5s ease, transform .5s ease;
+  transition: opacity .4s ease;
+  pointer-events: none;
 }
 .fv-caption-text.is-ja {
   font-family: var(--font-ja);
   font-size: 60rem;
   font-weight: 700;
   letter-spacing: .02em;
-}
-.fv-caption-text.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* End card overlay */
@@ -1727,68 +1721,71 @@ function launchAnimations() {
   const captionEl = document.getElementById('fv-caption-text');
   if (!video || !captionEl) return;
 
-  const endcardEl = document.getElementById('fv-endcard');
+  const endcardEl  = document.getElementById('fv-endcard');
   const endcardSub = document.getElementById('fv-endcard-sub');
 
   const captions = [
-    { start: 0,    end: 4,    text: '食品開発の”裏側”を、最前線で支えていく', ja: true },
-    { start: 5,    end: 8,    text: 'Food Technology', ja: false },
-    { start: 8,    end: 12,   text: 'AI', ja: false },
-    { start: 13,   end: 16,   text: 'Marketing', ja: false },
-    { start: 17,   end: 20,   text: 'Craftsmanship', ja: false },
+    { start: 0,  end: 4,  text: '食品開発の“裏側”を、最前線で支えていく', ja: true  },
+    { start: 5,  end: 8,  text: 'Food Technology', ja: false },
+    { start: 8,  end: 12, text: 'AI',              ja: false },
+    { start: 13, end: 16, text: 'Marketing',       ja: false },
+    { start: 17, end: 20, text: 'Craftsmanship',   ja: false },
   ];
+  const ENDCARD_START = 21, ENDCARD_END = 25;
 
-  const ENDCARD_START = 21;
-  const ENDCARD_END   = 25;
+  let prevKey = null; /* key = “text|ja” or “END” or “NONE” */
 
-  let current = null;
-  let endcardActive = false;
-  let fadeTimer = null;
+  function show(text, isJa) {
+    captionEl.textContent = text;
+    captionEl.className = 'fv-caption-text' + (isJa ? ' is-ja' : '');
+    captionEl.style.opacity = '1';
+  }
+  function hide() {
+    captionEl.style.opacity = '0';
+    setTimeout(() => { captionEl.textContent = ''; }, 400);
+  }
 
-  function update() {
+  function tick() {
     const t = video.currentTime;
 
-    /* End card */
-    const shouldShowEnd = t >= ENDCARD_START && t < ENDCARD_END;
-    if (shouldShowEnd !== endcardActive) {
-      endcardActive = shouldShowEnd;
-      if (shouldShowEnd) {
-        captionEl.classList.remove('visible');
+    /* Endcard */
+    if (t >= ENDCARD_START && t < ENDCARD_END) {
+      if (prevKey !== 'END') {
+        prevKey = 'END';
+        captionEl.style.opacity = '0';
         endcardSub.textContent = '食品開発の“裏側”を、最前線で支えていく';
         endcardEl.classList.add('visible');
-        current = null;
-      } else {
-        endcardEl.classList.remove('visible');
       }
+      requestAnimationFrame(tick);
+      return;
     }
-    if (shouldShowEnd) return;
+    if (prevKey === 'END') {
+      endcardEl.classList.remove('visible');
+      prevKey = null;
+    }
 
     /* Regular captions */
     const cap = captions.find(c => t >= c.start && t < c.end) || null;
-    if (cap === current) return;
+    const key = cap ? cap.text + '|' + cap.ja : 'NONE';
 
-    clearTimeout(fadeTimer);
-    captionEl.classList.remove('visible');
-    const nextCap = cap;
-    fadeTimer = setTimeout(() => {
-      if (nextCap) {
-        captionEl.textContent = nextCap.text;
-        captionEl.classList.toggle('is-ja', nextCap.ja);
-        captionEl.classList.add('visible');
+    if (key !== prevKey) {
+      prevKey = key;
+      if (cap) {
+        show(cap.text, cap.ja);
       } else {
-        captionEl.textContent = '';
+        hide();
       }
-    }, 350);
-    current = cap;
+    }
+
+    requestAnimationFrame(tick);
   }
 
-  /* rAF loop — runs every frame regardless of play state */
-  let rafId;
-  function loop() {
-    update();
-    rafId = requestAnimationFrame(loop);
+  /* Start as soon as video metadata is ready */
+  if (video.readyState >= 1) {
+    tick();
+  } else {
+    video.addEventListener('loadedmetadata', tick, { once: true });
   }
-  loop(); /* start unconditionally */
 })();
 
 /* ═══════════════════════════════
