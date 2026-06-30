@@ -1178,8 +1178,7 @@ img, video { display: block; }
 .footer-sns a:hover { color: var(--white); }
 
 .footer-nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 40rem;
   margin-bottom: 80rem;
   border-top: 1px solid rgba(246,246,246,.08);
@@ -1523,35 +1522,9 @@ img, video { display: block; }
       </div>
     </div>
     <div class="footer-nav">
-      <div class="footer-nav-col">
-        <p class="footer-nav-heading">About</p>
-        <div class="footer-nav-items">
-          <a href="#" class="footer-nav-item">Philosophy</a>
-          <a href="#" class="footer-nav-item">Strengths</a>
-          <a href="#" class="footer-nav-item">Story</a>
-        </div>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-nav-heading">Service</p>
-        <div class="footer-nav-items">
-          <a href="#js_home_service" class="footer-nav-item">AI Solution</a>
-          <a href="#js_home_service" class="footer-nav-item">ODM Support</a>
-        </div>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-nav-heading">News</p>
-        <div class="footer-nav-items">
-          <a href="#" class="footer-nav-item">News</a>
-          <a href="#" class="footer-nav-item">Knowledge</a>
-        </div>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-nav-heading">Contact</p>
-        <div class="footer-nav-items">
-          <a href="#js_home_cta" class="footer-nav-item">Contact</a>
-          <a href="#" class="footer-nav-item">Privacy Policy</a>
-        </div>
-      </div>
+      <a href="#js_home_about" class="footer-nav-heading">About</a>
+      <a href="#js_home_service" class="footer-nav-heading">Service</a>
+      <a href="#js_home_cta" class="footer-nav-heading">Contact</a>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© Behind X / TWO Inc.</p>
