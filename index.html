@@ -275,27 +275,6 @@ img, video { display: block; }
   object-fit: cover;
   opacity: 1;
 }
-.fv-fixed-text {
-  position: absolute;
-  bottom: 48px;
-  right: 48px;
-  text-align: right;
-  z-index: 10;
-  pointer-events: none;
-  opacity: 1;
-}
-.fv-fixed-text p {
-  font-size: 14px;
-  font-weight: 500;
-  color: #fff;
-  line-height: 2;
-  letter-spacing: .06em;
-  text-shadow: 0 1px 12px rgba(0,0,0,.7), 0 0 4px rgba(0,0,0,.5);
-}
-@media (max-width: 767px) {
-  .fv-fixed-text { right: 20px; bottom: 28px; left: 20px; text-align: left; }
-  .fv-fixed-text p { font-size: 11px; }
-}
 
 /* ─── FV Caption Overlay ─── */
 .fv-caption-wrap {
@@ -1404,10 +1383,6 @@ img, video { display: block; }
       </div>
       <div class=”fv-caption-text” id=”fv-caption-text”></div>
     </div>
-    <div class=”fv-fixed-text” id=”js_home_fv_heading”>
-      <p>「食品開発の民主化」を実現する、</p>
-      <p>次世代のAI活用型食品ODMプラットフォーム。</p>
-    </div>
   </section>
 
   <!-- Lead -->
@@ -1913,18 +1888,9 @@ let t = 0;
 
 /* Canvas visibility + blur on scroll */
 const canvasWrap = document.getElementById('js_bg_canvas');
-const fvFixedText = document.getElementById('js_home_fv_heading');
 const waitST = setInterval(() => {
   if (!window.ScrollTrigger) return;
   clearInterval(waitST);
-
-  /* Hide fv-fixed-text when FV scrolls out */
-  ScrollTrigger.create({
-    trigger: '#js_home_fv_fv',
-    start: 'bottom bottom',
-    onEnterBack: () => { fvFixedText.style.opacity = '1'; },
-    onLeave: () => { fvFixedText.style.opacity = '0'; }
-  });
 
   /* Fade in when FV scrolls out, fade out when FV comes back */
   ScrollTrigger.create({
