@@ -275,20 +275,25 @@ img, video { display: block; }
   opacity: 1;
 }
 .fv-fixed-text {
-  position: absolute;
-  bottom: 48rem;
-  right: 40rem;
+  position: fixed;
+  bottom: 48px;
+  right: 48px;
   text-align: right;
-  z-index: 10;
+  z-index: 100;
   pointer-events: none;
+  transition: opacity .4s ease;
 }
 .fv-fixed-text p {
-  font-size: 16rem;
+  font-size: 14px;
   font-weight: 500;
   color: #fff;
-  line-height: 1.9;
-  letter-spacing: .04em;
-  text-shadow: 0 1px 8px rgba(0,0,0,.4);
+  line-height: 2;
+  letter-spacing: .06em;
+  text-shadow: 0 1px 12px rgba(0,0,0,.7), 0 0 4px rgba(0,0,0,.5);
+}
+@media (max-width: 767px) {
+  .fv-fixed-text { right: 20px; bottom: 28px; left: 20px; text-align: left; }
+  .fv-fixed-text p { font-size: 11px; }
 }
 @media (max-width: 767px) {
   .fv-fixed-text { right: 24rem; bottom: 32rem; left: 24rem; text-align: left; }
@@ -1911,9 +1916,18 @@ let t = 0;
 
 /* Canvas visibility + blur on scroll */
 const canvasWrap = document.getElementById('js_bg_canvas');
+const fvFixedText = document.getElementById('js_home_fv_heading');
 const waitST = setInterval(() => {
   if (!window.ScrollTrigger) return;
   clearInterval(waitST);
+
+  /* Hide fv-fixed-text when FV scrolls out */
+  ScrollTrigger.create({
+    trigger: '#js_home_fv_fv',
+    start: 'bottom bottom',
+    onEnterBack: () => { fvFixedText.style.opacity = '1'; },
+    onLeave: () => { fvFixedText.style.opacity = '0'; }
+  });
 
   /* Fade in when FV scrolls out, fade out when FV comes back */
   ScrollTrigger.create({
