@@ -1006,6 +1006,56 @@ img, video { display: block; }
 }
 
 /* ─────────────────────────────────────────
+   Company Overview
+───────────────────────────────────────── */
+#js_home_company {
+  background: var(--black);
+  padding: 160rem 0;
+  position: relative;
+  z-index: 1;
+}
+.company-head { margin-bottom: 60rem; }
+.company-heading {
+  font-family: var(--font-ja);
+  font-size: 48rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-top: 12rem;
+}
+.company-table {
+  max-width: 820rem;
+}
+.company-row {
+  display: flex;
+  gap: 48rem;
+  padding: 24rem 0;
+  border-bottom: 1px solid rgba(246,246,246,.1);
+}
+.company-row:first-child { border-top: 1px solid rgba(246,246,246,.1); }
+.company-label {
+  font-family: var(--font-ja);
+  font-size: 13rem;
+  color: rgba(246,246,246,.4);
+  min-width: 120rem;
+  padding-top: 3rem;
+  flex-shrink: 0;
+}
+.company-value {
+  font-family: var(--font-ja);
+  font-size: 15rem;
+  color: var(--white);
+  line-height: 1.8;
+}
+@media (max-width: 767px) {
+  #js_home_company { padding: 100rem 0; }
+  .company-heading { font-size: 32rem; }
+  .company-row { flex-direction: column; gap: 8rem; padding: 20rem 0; }
+  .company-label { font-size: 12rem; min-width: unset; }
+  .company-value { font-size: 14rem; }
+}
+
+/* ─────────────────────────────────────────
    CTA
 ───────────────────────────────────────── */
 /* Contact form */
@@ -1474,6 +1524,42 @@ img, video { display: block; }
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Company Overview -->
+  <section id="js_home_company">
+    <div class="inner">
+      <div class="company-head reveal-up">
+        <p class="know-head-main odm-label">ABOUT</p>
+        <h2 class="company-heading">会社概要</h2>
+      </div>
+      <dl class="company-table reveal-up">
+        <div class="company-row">
+          <dt class="company-label">会社名</dt>
+          <dd class="company-value">株式会社TWO（Behind X事業）</dd>
+        </div>
+        <div class="company-row">
+          <dt class="company-label">設立</dt>
+          <dd class="company-value">—</dd>
+        </div>
+        <div class="company-row">
+          <dt class="company-label">代表者</dt>
+          <dd class="company-value">—</dd>
+        </div>
+        <div class="company-row">
+          <dt class="company-label">所在地</dt>
+          <dd class="company-value">—</dd>
+        </div>
+        <div class="company-row">
+          <dt class="company-label">事業内容</dt>
+          <dd class="company-value">食品開発AI活用型ODMプラットフォームの運営・食品開発トータル支援</dd>
+        </div>
+        <div class="company-row">
+          <dt class="company-label">お問い合わせ</dt>
+          <dd class="company-value">—</dd>
+        </div>
+      </dl>
     </div>
   </section>
 
