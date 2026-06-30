@@ -289,26 +289,26 @@ img, video { display: block; }
 }
 .fv-caption-text {
   font-family: var(--font-en);
-  font-size: 80rem;
+  font-size: 96rem;
   font-weight: 700;
   color: #fff;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: -.02em;
   white-space: pre-line;
   text-align: center;
   text-shadow:
-    0 0 60px rgba(0,0,0,.85),
-    0 0 30px rgba(0,0,0,.8),
-    0 2px 8px rgba(0,0,0,.9);
+    0 0 80px rgba(0,0,0,.9),
+    0 0 40px rgba(0,0,0,.85),
+    0 4px 12px rgba(0,0,0,.95);
   opacity: 0;
-  transform: translateY(10rem);
-  transition: opacity .45s ease, transform .45s ease;
+  transform: translateY(16rem);
+  transition: opacity .5s ease, transform .5s ease;
 }
 .fv-caption-text.is-ja {
   font-family: var(--font-ja);
-  font-size: 53rem;
+  font-size: 60rem;
   font-weight: 700;
-  letter-spacing: .01em;
+  letter-spacing: .02em;
 }
 .fv-caption-text.visible {
   opacity: 1;
@@ -344,8 +344,8 @@ img, video { display: block; }
 
 @media (max-width: 767px) {
   .fv-caption-wrap { padding: 0 24rem; }
-  .fv-caption-text { font-size: 44rem; }
-  .fv-caption-text.is-ja { font-size: 31rem; }
+  .fv-caption-text { font-size: 52rem; }
+  .fv-caption-text.is-ja { font-size: 36rem; }
   .fv-endcard-logo svg,
   .fv-endcard-logo img { height: 68rem; }
   .fv-endcard-sub { font-size: 29rem; }
@@ -1736,14 +1736,14 @@ function launchAnimations() {
     { start: 20,   end: 23,   text: 'Craftmanship', ja: false },
   ];
 
-  /* End card: 0:25〜0:27 */
   const ENDCARD_START = 25;
   const ENDCARD_END   = 27.5;
 
   let current = null;
   let endcardActive = false;
+  let fadeTimer = null;
 
-  video.addEventListener('timeupdate', () => {
+  function update() {
     const t = video.currentTime;
 
     /* End card */
@@ -1765,18 +1765,35 @@ function launchAnimations() {
     const cap = captions.find(c => t >= c.start && t < c.end) || null;
     if (cap === current) return;
 
+    clearTimeout(fadeTimer);
     captionEl.classList.remove('visible');
-    setTimeout(() => {
-      if (cap) {
-        captionEl.textContent = cap.text;
-        captionEl.classList.toggle('is-ja', cap.ja);
+    const nextCap = cap;
+    fadeTimer = setTimeout(() => {
+      if (nextCap) {
+        captionEl.textContent = nextCap.text;
+        captionEl.classList.toggle('is-ja', nextCap.ja);
         captionEl.classList.add('visible');
       } else {
         captionEl.textContent = '';
       }
-    }, 420);
+    }, 350);
     current = cap;
-  });
+  }
+
+  /* rAF loop — fires every frame for smooth sync */
+  let rafId;
+  function loop() {
+    update();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  video.addEventListener('play', () => { cancelAnimationFrame(rafId); loop(); });
+  video.addEventListener('pause', () => cancelAnimationFrame(rafId));
+  video.addEventListener('ended', () => cancelAnimationFrame(rafId));
+
+  /* Start immediately if already playing */
+  if (!video.paused) loop();
+  else video.addEventListener('canplay', () => { if (!video.paused) loop(); }, { once: true });
 })();
 
 /* ═══════════════════════════════
