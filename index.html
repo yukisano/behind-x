@@ -298,18 +298,20 @@ img, video { display: block; }
   inset: 0;
   display: flex;
   align-items: center;
-  padding: 0 80rem;
+  justify-content: center;
+  padding: 0 40rem;
   pointer-events: none;
   z-index: 2;
 }
 .fv-caption-text {
   font-family: var(--font-en);
-  font-size: 72rem;
+  font-size: 80rem;
   font-weight: 700;
   color: #fff;
   line-height: 1.25;
   letter-spacing: -.02em;
   white-space: pre-line;
+  text-align: center;
   text-shadow: 0 2px 24px rgba(0,0,0,.35);
   opacity: 0;
   transform: translateY(10rem);
@@ -317,7 +319,7 @@ img, video { display: block; }
 }
 .fv-caption-text.is-ja {
   font-family: var(--font-ja);
-  font-size: 48rem;
+  font-size: 53rem;
   font-weight: 700;
   letter-spacing: .01em;
 }
@@ -326,9 +328,9 @@ img, video { display: block; }
   transform: translateY(0);
 }
 @media (max-width: 767px) {
-  .fv-caption-wrap { padding: 0 32rem; }
-  .fv-caption-text { font-size: 40rem; }
-  .fv-caption-text.is-ja { font-size: 28rem; }
+  .fv-caption-wrap { padding: 0 24rem; }
+  .fv-caption-text { font-size: 44rem; }
+  .fv-caption-text.is-ja { font-size: 31rem; }
 }
 
 /* ─────────────────────────────────────────
