@@ -296,10 +296,12 @@ img, video { display: block; }
   letter-spacing: -.02em;
   white-space: pre-line;
   text-align: center;
-  text-shadow:
-    0 0 80px rgba(0,0,0,.9),
-    0 0 40px rgba(0,0,0,.85),
-    0 4px 12px rgba(0,0,0,.95);
+  text-shadow: 0 2px 12px rgba(0,0,0,.6);
+  background: rgba(0,0,0,.38);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 24rem 56rem;
+  border-radius: 8rem;
   opacity: 0;
   transform: translateY(16rem);
   transition: opacity .5s ease, transform .5s ease;
@@ -1780,20 +1782,13 @@ function launchAnimations() {
     current = cap;
   }
 
-  /* rAF loop — fires every frame for smooth sync */
+  /* rAF loop — runs every frame regardless of play state */
   let rafId;
   function loop() {
     update();
     rafId = requestAnimationFrame(loop);
   }
-
-  video.addEventListener('play', () => { cancelAnimationFrame(rafId); loop(); });
-  video.addEventListener('pause', () => cancelAnimationFrame(rafId));
-  video.addEventListener('ended', () => cancelAnimationFrame(rafId));
-
-  /* Start immediately if already playing */
-  if (!video.paused) loop();
-  else video.addEventListener('canplay', () => { if (!video.paused) loop(); }, { once: true });
+  loop(); /* start unconditionally */
 })();
 
 /* ═══════════════════════════════
